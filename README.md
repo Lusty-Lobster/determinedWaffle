@@ -66,7 +66,7 @@ bower install
 
 Create your own Firebase instance and change the Firebase URL in /app/scripts/angularfire/config.js. The Firebase URL is stored in the constant 'FBURL'.
 
-The only required task in Firebase is to create a key called 'instructors'. The value of this key will be an object with keys in this format: 'github:{github_user_id}' (eg, 'github:123456). The value of this latter key should be a string containing the instructor's display name, eg "Fred Zirdung".
+The only required task in Firebase is to create a key called 'instructors'. The value of this key will be an object with keys in this format: 'github:{github_user_id}' (eg, 'github:123456). The value of this latter key should be a string containing the instructor's display name, eg "Fred Zirdung". The full entry should look like this: **github:123456:** "Fred Zirdung".
 
 ### Start local server
 
