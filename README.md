@@ -5,9 +5,9 @@
 
 ## Team
 
-  - __Product Owner__: Mike Yao
-  - __Scrum Master__: Andy Sponring
-  - __Development Team Members__: Austin Liu, David Trinh, Mike Yao, Andy Sponring
+  - __Product Owner__: Joseph Lin
+  - __Scrum Master__: Katrina Uychaco
+  - __Development Team Members__: Joseph Lin, David Hopper, Katrina Uychaco, John Winstead
 
 ## Table of Contents
 
