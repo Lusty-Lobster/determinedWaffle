@@ -90,7 +90,7 @@ Deploying your app using Firebase is a snap! From the root directory run:
 grunt deploy --prod
 ```
 
-You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://<your_app_name>.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://waffleup.firebaseapp.com/'.
+You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://your_app_name.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://waffleup.firebaseapp.com/'.
 
 ## Roadmap
 
