@@ -24,7 +24,7 @@
 
 ## Usage
 
-To view a live hosted instance of the app, visit [this link](https://waffleup.firebaseapp.com/).
+To view a live hosted instance of the app, visit [this link](https://moderate-it.firebaseapp.com/).
 
 You will be asked to login via GitHub. Once you have authorized the application, you will be taken to the main view for a student. When an instructor initiates a poll (either a thumbs check or a mini-quiz), this page will be updated with the poll.
 
@@ -64,9 +64,23 @@ bower install
 
 ### Set up Firebase
 
-Create your own Firebase instance and change the Firebase URL in /app/scripts/angularfire/config.js. The Firebase URL is stored in the constant 'FBURL'.
+Create your own Firebase instance and change the Firebase URL in /app/scripts/angularfire/config.js. The Firebase URL is stored in the constant 'FBURL'. 
 
-The only required task in Firebase is to create a key called 'instructors'. The value of this key will be an object with keys in this format: 'github:{github_user_id}' (eg, 'github:123456). The value of this latter key should be a string containing the instructor's display name, eg "Fred Zirdung".
+In firebase.json change the 'firebase' property value to your firebase app name.
+
+Navigate to 'https://your_app_name.firebaseio.com/' and do the following: 
+
+**Create a key called 'instructors'**
+
+Keys should be of this format: `github:1234567`, where the numbers are your [github id](http://caius.github.io/github_id/).
+
+Values should be of this format: "Fred Zirdung", the displayed name.
+
+Eg: **github:123456:** "Fred Zirdung".
+
+**Setup GitHub authentication**
+
+Click 'Login & Auth' and follow instructions to set up GitHub authentication.
 
 ### Start local server
 
@@ -88,14 +102,15 @@ Deploying your app using Firebase is a snap! From the root directory run:
 grunt deploy --prod
 ```
 
-You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://<your_app_name>.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://waffleup.firebaseapp.com/'.
+You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://\<your_app_name\>.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://moderate-it.firebaseapp.com/'.
+
 
 ## Roadmap
 
-View the project roadmap [here](https://github.com/determinedWaffle/determinedWaffle/issues).
+View the project roadmap [here](https://github.com/Lusty-Lobster/determinedWaffle/issues).
 
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/determinedWaffle/determinedWaffle/blob/master/_CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](https://github.com/Lusty-Lobster/determinedWaffle/blob/master/_CONTRIBUTING.md) for contribution guidelines.
 
