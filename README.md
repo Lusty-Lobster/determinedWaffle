@@ -24,7 +24,7 @@
 
 ## Usage
 
-To view a live hosted instance of the app, visit [this link](https://waffleup.firebaseapp.com/).
+To view a live hosted instance of the app, visit [this link](https://moderate-it.firebaseapp.com/).
 
 You will be asked to login via GitHub. Once you have authorized the application, you will be taken to the main view for a student. When an instructor initiates a poll (either a thumbs check or a mini-quiz), this page will be updated with the poll.
 
@@ -102,15 +102,15 @@ Deploying your app using Firebase is a snap! From the root directory run:
 grunt deploy --prod
 ```
 
-You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://\<your_app_name\>.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://waffleup.firebaseapp.com/'.
+You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://\<your_app_name\>.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://moderate-it.firebaseapp.com/'.
 
 
 ## Roadmap
 
-View the project roadmap [here](https://github.com/determinedWaffle/determinedWaffle/issues).
+View the project roadmap [here](https://github.com/Lusty-Lobster/determinedWaffle/issues).
 
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/determinedWaffle/determinedWaffle/blob/master/_CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](https://github.com/Lusty-Lobster/determinedWaffle/blob/master/_CONTRIBUTING.md) for contribution guidelines.
 
