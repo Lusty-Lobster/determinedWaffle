@@ -72,7 +72,11 @@ Navigate to 'https://your_app_name.firebaseio.com/' and do the following:
 
 **Create a key called 'instructors'**
 
-The value of this key will be an object with keys in this format: 'github:{github_user_id}' (eg, 'github:123456). The value of this latter key should be a string containing the instructor's display name, eg "Fred Zirdung". The full entry should look like this: **github:123456:** "Fred Zirdung".
+Keys should be of this format: `github:1234567`, where the numbers are your [github id](http://caius.github.io/github_id/).
+
+Values should be of this format: "Fred Zirdung", the displayed name.
+
+Eg: **github:123456:** "Fred Zirdung".
 
 **Setup GitHub authentication**
 
@@ -98,7 +102,7 @@ Deploying your app using Firebase is a snap! From the root directory run:
 grunt deploy --prod
 ```
 
-You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://your_app_name.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://waffleup.firebaseapp.com/'.
+You will be prompted to enter your Firebase login credentials. Once completed, just navigate to 'https://\<your_app_name\>.firebaseapp.com/' where 'your_app_name' is the the name you configured in Firebase for your app. We used 'https://waffleup.firebaseapp.com/'.
 
 
 ## Roadmap
