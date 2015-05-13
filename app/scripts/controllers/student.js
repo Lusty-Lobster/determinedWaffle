@@ -57,7 +57,7 @@ angular.module('thumbsCheckApp')
       var studentResponseRef = Ref.child('responses').child(user.uid); 
       var obj = $firebaseObject(studentResponseRef);
       obj.$loaded().then(function(data) {
-        obj[user.uid] = thumbsChoice;
+        obj["vote"] = thumbsChoice;
         obj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
