@@ -6,7 +6,7 @@ angular.module('thumbsCheckApp')
 
     /*Quiz*/
     $scope.choices = [];
-    var quizesRef = Ref.child('quizes');
+    var quizesRef = Ref.child('quizzes');
     var quizes = $firebaseArray(quizesRef);
     $scope.quizes = quizes;
 
