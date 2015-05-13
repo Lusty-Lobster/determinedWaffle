@@ -1,0 +1,32 @@
+<div class='jumbotron'>
+
+<form ng-submit="addTownHall(topic)">
+  <div class="form-group">
+    <label for="topic"><h2>Create New Town Hall</h2></label>
+    <input ng-model="topic" type="text" class="form-control" id="topic" placeholder="Please enter a topic for discussion" required />
+  </div>
+  
+</form>
+
+<!-- <progress><bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%-{{bar.choice}}</span></bar></progress> -->
+
+
+<accordion close-others="oneAtATime">
+
+  <div ng-repeat="townHall in townHalls">
+    
+    <accordion-group>
+    <accordion-heading>
+    <button type="button" class="btn btn-primary" ng-model="state.townHall" ng-change="state.$save()" ng-click="pushTownHall(townHall)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
+    {{townHall.topic}}
+    </accordion-heading>
+    <ul ng-repeat="question in townHall.questions track by $index">
+      {{$index+1}} : {{question.question}}
+    </ul>
+    </accordion-group>
+  </div>
+
+</accordion>
+
+
+</div>
