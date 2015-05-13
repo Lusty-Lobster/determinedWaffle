@@ -47,7 +47,7 @@ angular.module('thumbsCheckApp')
     $scope.pushQuiz = function(quiz) {
       // console.log('clicked', quiz);
       
-      var newQuizRef = Ref.child('newQuiz');
+      var newQuizRef = Ref.child('currentQuiz');
       var newQuizObj = $firebaseObject(newQuizRef);
       newQuizObj.quiz = quiz;
       newQuizObj.$save();
