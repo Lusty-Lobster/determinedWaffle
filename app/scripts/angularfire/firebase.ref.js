@@ -1,4 +1,5 @@
-// This is where we create firebase.ref, we inject the firebase dependency as well as the configs
+// RENAME TO 'ref.js' FOR CONSISTENCY
+//
 angular.module('firebase.ref', ['firebase', 'firebase.config'])
   .factory('Ref', ['$window', 'FBURL', '$firebaseObject', function($window, FBURL) {
     'use strict';
