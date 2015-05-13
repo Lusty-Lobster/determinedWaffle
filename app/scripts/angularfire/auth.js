@@ -1,4 +1,4 @@
-//This is where we create firebase.auth, we inject the firebase dependency as well as the factor we created in firebase.ref
+//This is where we create firebase.auth, we inject the firebase dependency as well as the factory we created in firebase.ref
 (function() {
   'use strict';
   angular.module('firebase.auth', ['firebase', 'firebase.ref'])

@@ -1,5 +1,5 @@
 {
-  "firebase": "waffleup",
+  "firebase": "moderate-it",
   "public": "app",
   "ignore": [
     "firebase.json",
