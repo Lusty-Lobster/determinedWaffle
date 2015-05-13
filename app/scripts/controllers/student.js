@@ -38,7 +38,7 @@ angular.module('thumbsCheckApp')
     });
 
 
-    var newQuizRef = Ref.child('newQuiz').child('quiz');
+    var newQuizRef = Ref.child('currentQuiz').child('quiz');
     var newQuizObj = $firebaseObject(newQuizRef);
     // Always update student view with latest quiz
     newQuizObj.$loaded().then(function(quiz){
