@@ -45,6 +45,10 @@ body{
   background-color: transparent;
 }
 
+.thumbs-check {
+  width: 100%;
+}
+
 .navbar>.container .navbar-brand-centered, 
 .navbar>.container-fluid .navbar-brand-centered {
   margin-left: -80px;
