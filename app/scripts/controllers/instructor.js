@@ -11,7 +11,7 @@ angular.module('thumbsCheckApp')
 
     // This is the trigger when instructor press startNew, all students 
     // go to thumbs check view. 
-    var triggerRef = Ref.child('trigger');
+    var triggerRef = Ref.child('state').child('thumbsTrigger');
     $scope.trigger = $firebaseObject(triggerRef);
 
     // Counts summary as: [up,middle,down]

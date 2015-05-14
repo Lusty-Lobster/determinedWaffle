@@ -39,28 +39,21 @@ angular.module('thumbsCheckApp')
 
     /*Accordion*/
     // quiz trigger
-    var triggerRef = Ref.child('quizTrigger');
+    var triggerRef = Ref.child('state').child('quizTrigger');
     $scope.quizTrigger = $firebaseObject(triggerRef);
+
+    var stateRef = Ref.child('state');
+    var stateObj = $firebaseObject(stateRef);
 
     // Show only one quiz at a time
     $scope.oneAtATime = true;
     $scope.pushQuiz = function(quiz) {
-      // console.log('clicked', quiz);
-      
-      var newQuizRef = Ref.child('currentQuiz');
-      var newQuizObj = $firebaseObject(newQuizRef);
-      newQuizObj.quiz = quiz;
-
       //add value here before saving it
-      newQuizObj.id = quiz.$id;
+      stateObj.quiz = quiz.$id;
+      stateObj.$save();
 
-      newQuizObj.$save();
-      // Remove the quizResponses table
-      $firebaseObject(Ref.child('quizResponses')).$remove();
-
-      // Initlize variables for $scope.total()
-      $scope.numberOfChoice = quiz.choices.length;
-      $scope.quizData = quiz;
+      $scope.numberOfChoice = stateObj.quiz.choices.length;
+      $scope.quizData = stateObj.quiz;
       $scope.stacked = [];
     };
 
