@@ -18,7 +18,7 @@ angular.module('thumbsCheckApp')
 
     $scope.userThumbsChoices = userThumbsChoices; 
 
-    var triggerRef = Ref.child('trigger');
+    var triggerRef = Ref.child('state').child('thumbsTrigger');
     var trigObj = $firebaseObject(triggerRef);
     trigObj.$loaded().then(function(data) {
       // When data referenced by triggerRef changes, the listener $watch is invoked
@@ -28,7 +28,7 @@ angular.module('thumbsCheckApp')
       });
     });
 
-    var quizTriggerRef = Ref.child('quizTrigger');
+    var quizTriggerRef = Ref.child('state').child('quizTrigger');
     var quizTrigObj = $firebaseObject(quizTriggerRef);
     quizTrigObj.$loaded().then(function(data) {
       quizTrigObj.$watch(function() {
@@ -38,12 +38,7 @@ angular.module('thumbsCheckApp')
     });
 
 
-    var newQuizRef = Ref.child('currentQuiz').child('quiz');
-    var newQuizObj = $firebaseObject(newQuizRef);
-    // Always update student view with latest quiz
-    newQuizObj.$loaded().then(function(quiz){
-      $scope.quiz = quiz;
-    });
+    
 
 
 
@@ -69,14 +64,24 @@ angular.module('thumbsCheckApp')
     var quizResponseRef;
     var quizResponsesObj;
 
-    var currentQuizRef = Ref.child('currentQuiz');
-    var currentQuizObj = $firebaseObject(currentQuizRef);
+    var newQuizRef;
+    var newQuizObj;
 
-    currentQuizObj.$loaded().then(function() {
-      currentQuizObj.$watch(function() {
+    var stateRef = Ref.child('state');
+    var stateObj = $firebaseObject(stateRef);
+
+    stateObj.$loaded().then(function() {
+      stateObj.$watch(function() {
         console.log('watch is working');
-        quizResponsesRef = Ref.child('quizzes').child(currentQuizObj.id).child('responses').child(user.uid);
+        quizResponsesRef = Ref.child('quizzes').child(stateObj.quiz).child('responses').child(user.uid);
         quizResponsesObj = $firebaseObject(quizResponsesRef);
+
+        newQuizRef = Ref.child('quizzes').child(stateObj.quiz);
+        newQuizObj = $firebaseObject(newQuizRef);
+        // Always update student view with latest quiz
+        newQuizObj.$loaded().then(function(quiz){
+          $scope.quiz = quiz;
+        });
       });
     })
 
