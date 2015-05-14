@@ -40,6 +40,10 @@ angular.module('thumbsCheckApp')
         templateUrl: 'views/instructor-quiz.html',
         controller: 'QuizCtrl'
       })
+      .whenAuthenticated('/instructor-townhall', {
+        templateUrl: 'views/instructor-townhall.html',
+        controller: 'TownHallCtrl'    
+      })
       .otherwise({
         redirectTo: '/'
       });

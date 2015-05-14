@@ -3,11 +3,11 @@ angular.module('thumbsCheckApp')
     // To get userID.role from web browser localStorage
     verifyInstructorService.verifyIfInstructor(user.uid);
 
-
     // This is firebase responses table url
     var responsesRef = Ref.child('responses');
     var responsesObj = $firebaseObject(responsesRef);
-    $scope.responses = responsesObj;
+    // IS $SCOPE.RESPONSES BEING USED?
+    $scope.responses = responsesObj;  
 
     // This is the trigger when instructor press startNew, all students 
     // go to thumbs check view. 
