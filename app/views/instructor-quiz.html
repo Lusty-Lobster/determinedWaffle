@@ -1,41 +1,49 @@
 <div class='jumbotron'>
 
-<progress><bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%-{{bar.choice}}</span></bar></progress>
+  <progress><bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%-{{bar.choice}}</span></bar></progress>
 
+  <accordion close-others="oneAtATime">
 
-<accordion close-others="oneAtATime">
-
-  <div ng-repeat="quiz in quizes">
-    
-    <accordion-group>
-    <accordion-heading>
-    <button type="button" class="btn btn-primary" ng-model="quizTrigger.val" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-change="quizTrigger.$save()" ng-click="pushQuiz(quiz)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
-    {{quiz.question}}
-    </accordion-heading>
-    <ul ng-repeat="choice in quiz.choices track by $index">
-      {{$index+1}} : {{choice}}
-    </ul>
-    </accordion-group>
-  </div>
-
-</accordion>
-
-<form ng-submit="addQuiz(question, choices)">
-  <div class="form-group">
-    <label for="question"><h2>Question</h2></label>
-    <input ng-model="question" type="text" class="form-control" id="question" placeholder="Please enter a question" required />
-    <label for="choices"><h2>Choices</h2></label>
-    <br>
-    <div class="btn-group">
-      <button class='btn btn-primary add-quiz' ng-click="add()">Add</button>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </div>
-    <div>
-      <ul ng-repeat="choice in choices track by $index">
-        <li><button class='btn btn-default' ng-click="remove($index)"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button><input ng-model="choice" ng-change="saveChange($index, choice)" type="text" class="form-control" placeholder="Please enter choices" required /></li>
+    <div ng-repeat="quiz in quizes">
+      
+      <accordion-group>
+      <accordion-heading>
+      <button type="button" class="btn btn-primary" ng-model="quizTrigger.val" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-change="quizTrigger.$save()" ng-click="pushQuiz(quiz)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
+      {{quiz.question}}
+      </accordion-heading>
+      <ul ng-repeat="choice in quiz.choices track by $index">
+        {{$index+1}} : {{choice}}
       </ul>
+      </accordion-group>
     </div>
-  </div>
-  
-</form>
+
+  </accordion>
+
+  <form ng-submit="addQuiz(question, choices)">
+    <div class="form-group">
+      <label for="question"><h2>Question</h2></label>
+      <input ng-model="question" type="text" class="form-control" id="question" placeholder="Please enter a question" required />
+      <label for="choices"><h2>Choices</h2></label>
+      <br>
+      <div class="btn-group">
+        <button class='btn btn-primary add-quiz' ng-click="add()">Add</button>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+      <div>
+        <ul ng-repeat="choice in choices track by $index">
+          <li><button class='btn btn-default' ng-click="remove($index)"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button><input ng-model="choice" ng-change="saveChange($index, choice)" type="text" class="form-control" placeholder="Please enter choices" required /></li>
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Locked nav bar that allows instructor to thumbs check whenever -->
+<div class="footer" ng-cloak="">
+  <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <a href='#/instructor-thumbs' class="thumbs-check btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'thumbs'">
+      <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+      Thumbs Check
+    </a>
+  </nav>
 </div>

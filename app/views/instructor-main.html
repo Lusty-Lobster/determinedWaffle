@@ -1,12 +1,13 @@
 <div class='jumbotron'>
-<h2>Instructor Operations</h2>
+
+  <h2>Instructor Operations</h2>
 
   <div>{{ radioModel }}</div>
 
   <div class="btn-group btn-group-justified btn-group-lg hidden-sm hidden-xs">
     <!-- <a class="btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'thumbs'" href='#/instructor-thumbs'>Thumbs Check</a> -->
     <a href='#/instructor-thumbs' class="btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'thumbs'">
-      <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Thumbs Check 
+      <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Town Hall 
     </a>
     <a href="#/instructor-quiz" class="btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'quiz'">
       <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Mini-quiz
@@ -19,7 +20,7 @@
 <!-- Vertical button group, visible only for sm and xs screens -->
   <div class="btn-group-vertical btn-group-lg visible-sm visible-xs hidden-md hidden-lg">
     <a href='#/instructor-thumbs' class="btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'thumbs'">
-      <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Thumbs Check 
+      <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Town Hall 
     </a>
     <a href="#/instructor-quiz" class="btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'quiz'">
       <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Mini-quiz
@@ -29,4 +30,14 @@
     </label>
   </div>
 
+</div>
+
+<!-- Locked nav bar that allows instructor to thumbs check whenever -->
+<div class="footer" ng-cloak="">
+  <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <a href='#/instructor-thumbs' class="thumbs-check btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'thumbs'">
+      <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+      Thumbs Check
+    </a>
+  </nav>
 </div>

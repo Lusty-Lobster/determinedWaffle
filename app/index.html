@@ -3,73 +3,77 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Thumbs Check!</title>
-    <!-- Library -->
-    <!-- bootstrap CSS -->
+    <title>Moderate.it</title>
+    <!-- Bootstrap CSS -->
     <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- our own styles -->
+    <!-- Custom styles -->
     <link href="styles/style.css" rel="stylesheet">
     <link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
 </head>
 
 <body ng-app="thumbsCheckApp">
-    <div class="header" ng-cloak="">
-        <div class="navbar navbar-inverse container" role="navigation" ng-controller="NavBarCtrl">
-            <div class=" navbar-header">
-                <!-- <div class="collapse navbar-collapse" > -->
-                    <!--  -->
-                    <!-- id="js-navbar-collapse" -->
-                    
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a class="navbar-brand hidden-sm hidden-xs" href="#/">Thumbs Check <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a>
-                        </li>
-                        <li>
-                            <!-- class="active" -->
-                            <a href="#/{{ role }}-main">Home</a>
-                        </li>
-                        <li ng-show-auth="">
-                            <a  ng-click="logout()" href="#/login">Log Out</a>
-                        </li>
-                    </ul>
-                <!-- </div> -->
-            </div>
+  <div class="header" ng-cloak="">
+    <nav class="navbar navbar-inverse" role="navigation" ng-controller="NavBarCtrl">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <!-- Drop down menu in mobile mode -->
+          <button ng-show-auth="" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-brand-centered">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="navbar-brand navbar-brand-centered">Moderate.it</div>
         </div>
-    </div>
-    <div ng-view class="container"></div>
 
-    <!-- Angular -->
-    <script src="/bower_components/angular/angular.min.js"></script>
-    <script src="/bower_components/angular-route/angular-route.min.js"></script>
-    <!-- Firebase -->
-    <script src="/bower_components/firebase/firebase.js"></script>
-    <!-- AngularFire -->
-    <script src="/bower_components/angularfire/dist/angularfire.min.js"></script>
-    <!-- Angular UI -->
-    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <!-- Jquery is requried by Bootstrap -->
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    
-    <!-- scripts -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/login.js"></script>
-    <script src="scripts/controllers/student.js"></script>
-    <script src="scripts/controllers/instructor.js"></script>
-    <script src="scripts/controllers/instructorQuiz.js"></script>
-    <script src="scripts/controllers/navbar.js"></script>
-    <script src="scripts/services/pickRandomService.js"></script>
-    <script src="scripts/services/verifyInstructorService.js"></script>
-    <script src="scripts/services/tallyUpStudentResponsesService.js"></script>
-    <script src="scripts/directives/ngHideAuth.js"></script>
-    <script src="scripts/directives/ngShowAuth.js"></script>
-    <script src="scripts/angularfire/auth.js"></script>
-    <script src="scripts/angularfire/config.js"></script>
-    <script src="scripts/angularfire/firebase.ref.js"></script>
-    <script src="scripts/routes.js"></script>
+        <!-- Collect home and logout for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-brand-centered">
+          <ul class="nav navbar-nav">
+            <li ng-show-auth=""><a href="#/{{ role }}-main">Home</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li ng-show-auth=""><a ng-click="logout()" href="#/login">Log Out</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  </div>
 
-    <!-- Bootstrap's JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <div ng-view class="container"></div>
+
+  <!-- Angular -->
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/bower_components/angular-route/angular-route.min.js"></script>
+  <!-- Firebase -->
+  <script src="/bower_components/firebase/firebase.js"></script>
+  <!-- AngularFire -->
+  <script src="/bower_components/angularfire/dist/angularfire.min.js"></script>
+  <!-- Angular UI -->
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <!-- Jquery is requried by Bootstrap -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  
+  <!-- scripts -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/login.js"></script>
+  <script src="scripts/controllers/student.js"></script>
+  <script src="scripts/controllers/instructor.js"></script>
+  <script src="scripts/controllers/instructorQuiz.js"></script>
+  <script src="scripts/controllers/navbar.js"></script>
+  <script src="scripts/services/pickRandomService.js"></script>
+  <script src="scripts/services/verifyInstructorService.js"></script>
+  <script src="scripts/services/tallyUpStudentResponsesService.js"></script>
+  <script src="scripts/directives/ngHideAuth.js"></script>
+  <script src="scripts/directives/ngShowAuth.js"></script>
+  <script src="scripts/angularfire/auth.js"></script>
+  <script src="scripts/angularfire/config.js"></script>
+  <script src="scripts/angularfire/firebase.ref.js"></script>
+  <script src="scripts/routes.js"></script>
+
+  <!-- Bootstrap's JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </body>
 
 </html>
