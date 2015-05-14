@@ -50,6 +50,10 @@ angular.module('thumbsCheckApp')
       var newQuizRef = Ref.child('currentQuiz');
       var newQuizObj = $firebaseObject(newQuizRef);
       newQuizObj.quiz = quiz;
+
+      //add value here before saving it
+      newQuizObj.id = quiz.$id;
+
       newQuizObj.$save();
       // Remove the quizResponses table
       $firebaseObject(Ref.child('quizResponses')).$remove();
