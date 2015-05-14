@@ -71,7 +71,7 @@ angular.module('thumbsCheckApp')
       // Hide quiz after student made a choice
       $scope.quizTrigger = false;
       quizResponsesObj.$loaded().then(function(data) {
-        quizResponsesObj[user.uid] = choice;
+        quizResponsesObj["selection"] = choice;
         quizResponsesObj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
