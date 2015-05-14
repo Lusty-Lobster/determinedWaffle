@@ -8,20 +8,6 @@
     <h3>Wait for thumbs-check or mini-quiz</h3>
   </div>
 
-
-  <div ng-if="quizTrigger" ng-init="quizTrigger = false">
-    <div>
-      <h2>Question:</h2> <h3>{{ quiz.question }}</h3> <br/>
-      <div class="btn-group btn-group-justified btn-group-lg hidden-sm hidden-xs" >
-        <label class="btn btn-primary" ng-model="quizChoice" btn-radio="choice" ng-click="submitQuizChoice($index)" ng-repeat="choice in quiz.choices track by $index">{{choice}}</label>
-      </div>
-
-      <div class="btn-group-vertical btn-group-lg visible-sm visible-xs hidden-md hidden-lg">
-        <label class="btn btn-primary" ng-model="quizChoice" btn-radio="choice" ng-click="submitQuizChoice($index)" ng-repeat="choice in quiz.choices track by $index">{{choice}}</label>
-      </div>
-    </div>
-  </div>
-
   <div  ng-show="thumbsTrigger">
     <h2>Thumbs check!</h2>
     <div class="btn-group btn-group-justified btn-group-lg hidden-sm hidden-xs">
@@ -40,6 +26,52 @@
     </div>
 
   </div>
+
+
+  <div ng-if="quizTrigger" ng-init="quizTrigger = false">
+    <div>
+      <h2>Quiz:</h2> <h3>{{ quiz.question }}</h3> <br/>
+      <div class="btn-group btn-group-justified btn-group-lg hidden-sm hidden-xs" >
+        <label class="btn btn-primary" ng-model="quizChoice" btn-radio="choice" ng-click="submitQuizChoice($index)" ng-repeat="choice in quiz.choices track by $index">{{choice}}</label>
+      </div>
+
+      <div class="btn-group-vertical btn-group-lg visible-sm visible-xs hidden-md hidden-lg">
+        <label class="btn btn-primary" ng-model="quizChoice" btn-radio="choice" ng-click="submitQuizChoice($index)" ng-repeat="choice in quiz.choices track by $index">{{choice}}</label>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="!(townHall < 0)">
+    <h2>Town Hall: {{ townHallObj.topic }}</h2> 
+    <form ng-submit="addQuestion(question)">
+      <div class="form-group">
+        <label for="question"><h3>Enter Question</h3></label>
+        <input ng-model="question" type="text" class="form-control" id="question" placeholder="Please enter a question" required />
+      </div>
+    </form>
+
+    <accordion close-others=false>
+      <div ng-repeat="questionObj in questionsObj">
+        <accordion-group>
+          <accordion-heading>
+            {{questionObj.question}}
+          </accordion-heading>
+          <div>
+            <div class="btn-group btn-group-justified btn-group-sm">
+              <label ng-repeat="thumbs in userThumbsChoices track by $index"class="btn btn-primary" ng-click="vote(questionObj, thumbs.choice)" >
+                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
+              </label>
+            </div>
+
+          </div>
+        </accordion-group>
+      </div>
+
+    </accordion>
+  
+  </div>
+
+  
 
 
 </div>
