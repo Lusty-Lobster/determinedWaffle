@@ -65,8 +65,20 @@ angular.module('thumbsCheckApp')
       });
     };
 
-    var quizResponsesRef = Ref.child('quizResponses').child(user.uid);
-    var quizResponsesObj = $firebaseObject(quizResponsesRef);
+    var quizResponseRef;
+    var quizResponsesObj;
+
+    var currentQuizRef = Ref.child('currentQuiz');
+    var currentQuizObj = $firebaseObject(currentQuizRef);
+
+    currentQuizObj.$loaded().then(function() {
+      currentQuizObj.$watch(function() {
+        console.log('watch is working');
+        quizResponsesRef = Ref.child('quizzes').child(currentQuizObj.id).child('responses').child(user.uid);
+        quizResponsesObj = $firebaseObject(quizResponsesRef);
+      });
+    })
+
     $scope.submitQuizChoice = function(choice) {
       // Hide quiz after student made a choice
       $scope.quizTrigger = false;
