@@ -6,7 +6,7 @@ angular.module('thumbsCheckApp')
 
     /*Quiz*/
     $scope.choices = [];
-    var quizesRef = Ref.child('quizes');
+    var quizesRef = Ref.child('quizzes');
     var quizes = $firebaseArray(quizesRef);
     $scope.quizes = quizes;
 
@@ -47,9 +47,13 @@ angular.module('thumbsCheckApp')
     $scope.pushQuiz = function(quiz) {
       // console.log('clicked', quiz);
       
-      var newQuizRef = Ref.child('newQuiz');
+      var newQuizRef = Ref.child('currentQuiz');
       var newQuizObj = $firebaseObject(newQuizRef);
       newQuizObj.quiz = quiz;
+
+      //add value here before saving it
+      newQuizObj.id = quiz.$id;
+
       newQuizObj.$save();
       // Remove the quizResponses table
       $firebaseObject(Ref.child('quizResponses')).$remove();
