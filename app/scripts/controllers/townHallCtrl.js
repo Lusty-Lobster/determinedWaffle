@@ -10,7 +10,7 @@ angular.module('thumbsCheckApp')
     console.log(townHallsObj);
     $scope.townHalls = townHallsObj;
 
-
+    
 
     $scope.addTownHall = function(topic) {
       console.log('added');
@@ -73,7 +73,6 @@ angular.module('thumbsCheckApp')
 
       // once townHallQuestionsObj is loaded, then
       townHallQuestionsObj.$loaded().then(function(questions) {
-        console.log('questions', questions);
         // loop - for each question
         questions.forEach(function(question, key) {
           var thumbsCounts = [];
@@ -88,25 +87,28 @@ angular.module('thumbsCheckApp')
 
           townHallQuestionObj.$loaded().then(function(question) {
 
-            console.log('question (single)', question, key);
-            // var responses = question.responses;
             question.voteResult = tallyResponses(question.responses, thumbsCounts);
 
-            // tallyUpStudentResponsesService.tallyUpResponses(responses, undefined, studentList, thumbsCounts);
-            // $scope.populateProgressBar(thumbsCounts);
-            // $scope.studentList = studentList;
 
 
-            // $scope.results[key] = populateProgressBar(thumbsCounts);
             question.results = populateProgressBar(thumbsCounts);
             question.$save();
           });
-          // get responses object
         });
       });
     }; 
 
+    $scope.convertToArray = function (questionsObj, townHall) {
+      window.whatever = questionsObj;
+      // console.log(townHall);
+      // console.log(Object.keys(questionsObj));
+      $scope.questions = Object.keys(questionsObj).map(function(questionID) {
+        // console.log("inside conver to Array ", questionsObj[questionID]);
+        return questionsObj[questionID];
+      });
 
+      console.log($scope.questions);
+    };
 
     var tallyResponses = function(responses, thumbsCounts) {
       for (var student in responses) {
