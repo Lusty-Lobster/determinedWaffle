@@ -67,7 +67,8 @@ angular.module('thumbsCheckApp')
     // watch firebase responses, upon change, update counts and studentList
     quizResponsesObj.$loaded().then(function() {
       quizResponsesObj.$watch(function() {
-          results = $scope.total();
+          // results = $scope.total();
+          $scope.total();
       });
     });
 
