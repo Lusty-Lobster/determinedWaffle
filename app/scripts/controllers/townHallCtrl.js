@@ -5,16 +5,19 @@ angular.module('thumbsCheckApp')
 
 
     var townHallsRef = Ref.child('townHall');  // TODO: rename db entry to 'townHalls'
-    var townHalls = $firebaseArray(townHallsRef);
-    console.log(townHalls);
-    $scope.townHalls = townHalls;
+    console.log('ref',townHallsRef);
+    var townHallsObj = $firebaseArray(townHallsRef);
+    console.log(townHallsObj);
+    $scope.townHalls = townHallsObj;
+
+
 
     $scope.addTownHall = function(topic) {
       console.log('added');
       var townHall = {};
       townHall.questions = [];
       townHall.topic = topic;
-      townHalls.$add(townHall);
+      townHallsObj.$add(townHall);
 
       // clear form
       $scope.topic = '';
@@ -27,6 +30,8 @@ angular.module('thumbsCheckApp')
     var stateObj = $firebaseObject(stateRef);
     $scope.state = stateObj;
 
+    var townHallQuestionsRef; // = townHallsRef.child(stateObj.townHall).child('questions');
+    var townHallQuestionsObj; // = $firebaseObject(townHallQuestionsRef);
     // Show only one quiz at a time
     $scope.oneAtATime = true;
 
@@ -36,11 +41,128 @@ angular.module('thumbsCheckApp')
       stateObj.townHall = townHall.$id;
       stateObj.$save();
 
+      townHallQuestionsRef = townHallsRef.child(stateObj.townHall).child('questions');
+      townHallQuestionsObj = $firebaseObject(townHallQuestionsRef);
+      // console.log('questions obj', townHallQuestionsObj);
+
+      townHallQuestionsObj.$loaded().then(function() {
+        $scope.total();
+        townHallQuestionsObj.$watch(function() {
+            // results = $scope.total();
+            $scope.total();
+        });
+      });
+
       // // Initlize variables for $scope.total()
       // $scope.numberOfTopic = quiz.topics.length;
       // $scope.quizData = quiz;
       // $scope.stacked = [];
     };
+
+
+
+
+    $scope.total = function() {
+      // Initialize quizCounts and studentList
+      // quizResponsesObj.$loaded().then(function(responses) {
+      //   tallyUpStudentResponsesService.tallyUpResponses(responses, undefined, studentList, quizCounts);
+      //   $scope.populateProgressBar(quizCounts);
+      //   $scope.studentList = studentList;
+      // });
+      $scope.results = {};
+
+      // once townHallQuestionsObj is loaded, then
+      townHallQuestionsObj.$loaded().then(function(questions) {
+        console.log('questions', questions);
+        // loop - for each question
+        questions.forEach(function(question, key) {
+          var thumbsCounts = [];
+          var studentList = {};
+          for (var i = 0; i < 3; i++) {
+            thumbsCounts.push(0);
+            studentList[i] = [];
+          }
+          // get responses object
+          console.log('question (single)', question, key);
+          var responses = question.responses;
+          tallyResponses(responses, thumbsCounts);
+
+          // tallyUpStudentResponsesService.tallyUpResponses(responses, undefined, studentList, thumbsCounts);
+          // $scope.populateProgressBar(thumbsCounts);
+          // $scope.studentList = studentList;
+
+
+          $scope.results[key] = populateProgressBar(thumbsCounts);
+          console.log('results', $scope.results);
+        });
+      });
+    }; 
+
+
+
+    var tallyResponses = function(responses, thumbsCounts) {
+      for (var student in responses) {
+        var vote = responses[student].vote;
+        if (vote === 'up') {
+          thumbsCounts[0]++;
+        } else if (vote === 'middle') {
+          thumbsCounts[1]++;
+        } else {
+          thumbsCounts[2]++;
+        }
+      }
+    };
+
+    // one progress bar for each question (question_id)
+    populateProgressBar = function(quizResult) {
+      stacked = [];
+
+      var types = ['success', 'info', 'warning', 'danger'];
+
+      var quizCountsTotal = quizResult.reduce(function(memo, x) {
+        return memo + x;
+      });
+
+      if (quizCountsTotal === 0) {
+        return stacked;
+      }
+
+      var choices = ['up', 'mid', 'down'];
+
+      quizResult.forEach(function(val, i) {
+        var percent = Math.floor((val / quizCountsTotal) * 100);
+        var type = types[i];
+        stacked.push({
+          value: percent,
+          type: type,
+          choice: choices[i]
+        });
+      });
+
+      return stacked;
+    };
+
+
+    /*
+
+    [2,5,6] - per question
+
+    results =
+    {
+      q1: [{%,type},{%,type},{%,type}],
+      q2: [4,5,6]
+    }
+    */
+
+
+
+
+
+
+
+
+
+
 
     // // Quiz Response
     // var quizResponsesRef = Ref.child('quizResponses');

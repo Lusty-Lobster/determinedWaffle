@@ -1,32 +1,42 @@
 <div class='jumbotron'>
 
-<form ng-submit="addTownHall(topic)">
-  <div class="form-group">
-    <label for="topic"><h2>Create New Town Hall</h2></label>
-    <input ng-model="topic" type="text" class="form-control" id="topic" placeholder="Please enter a topic for discussion" required />
-  </div>
-  
-</form>
-
-<!-- <progress><bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%-{{bar.choice}}</span></bar></progress> -->
-
-
-<accordion close-others="oneAtATime">
-
-  <div ng-repeat="townHall in townHalls">
+  <form ng-submit="addTownHall(topic)">
+    <div class="form-group">
+      <label for="topic"><h2>Create New Town Hall</h2></label>
+      <input ng-model="topic" type="text" class="form-control" id="topic" placeholder="Please enter a topic for discussion" required />
+    </div>
     
-    <accordion-group>
-    <accordion-heading>
-    <button type="button" class="btn btn-primary" ng-model="state.townHall" ng-change="state.$save()" ng-click="pushTownHall(townHall)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
-    {{townHall.topic}}
-    </accordion-heading>
-    <ul ng-repeat="question in townHall.questions track by $index">
-      {{$index+1}} : {{question.question}}
-    </ul>
-    </accordion-group>
+  </form>
+
+  <!-- <progress><bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%-{{bar.choice}}</span></bar></progress> -->
+
+
+  <accordion close-others="oneAtATime">
+
+    <div ng-repeat="townHall in townHalls">
+      
+      <accordion-group>
+      <accordion-heading>
+      <button type="button" class="btn btn-primary" ng-model="state.townHall" ng-change="state.$save()" ng-click="pushTownHall(townHall)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
+      {{townHall.topic}}
+      </accordion-heading>
+      <ul ng-repeat="(id, question) in townHall.questions track by $index | orderBy:'results[id][0].value'"> <!-- TODO: Change to Ul with nested li laster -->
+        {{$index+1}} : {{question.question}} - by - {{question.student_id}}
+        <progress><bar ng-repeat="choice in results[id]" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
+      </ul>
+      </accordion-group>
+    </div>
+
+  </accordion>
+
+  <!-- Locked nav bar that allows instructor to thumbs check whenever -->
+  <div class="footer" ng-cloak="">
+    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+      <a href='#/instructor-thumbs' class="thumbs-check btn btn-primary btn-lg" ng-model="radioModel" btn-radio="'thumbs'">
+        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+        Thumbs Check
+      </a>
+    </nav>
   </div>
-
-</accordion>
-
 
 </div>
