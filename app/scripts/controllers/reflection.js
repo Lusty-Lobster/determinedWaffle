@@ -40,7 +40,6 @@ angular.module('thumbsCheckApp')
   $scope.addTopicToReflection = function(reflection, topic) {
     Ref.child('reflections').child(reflection.$id).child('topics')
     .$asArray().$loaded().then(function(topics){
-      console.log(topics);
       topics.$add({
         topic: topic,
         responses: []
@@ -51,8 +50,8 @@ angular.module('thumbsCheckApp')
   };
 
   $scope.pushReflection = function(reflection) {
-    console.log(reflection);  
     $scope.state.$loaded().then(function(){
+      console.log('state.reflection = ', reflection.$id);  
       $scope.state.reflection = reflection.$id;
 
       $scope.state.$save();

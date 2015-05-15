@@ -99,6 +99,21 @@ angular.module('thumbsCheckApp')
     };
 
     // ========================== NEW CODE ================
+    stateObj.$loaded().then(function( state ) {
+      updateTownHall( state );
+
+      console.log('state loaded');
+      stateObj.$watch(function() {
+        console.log('state changed');
+
+        if(state.townHall !== $scope.townHall) {
+          updateTownHall( state );
+        }
+        if(state.reflection !== $scope.reflection) {
+          updateReflection( state );
+        }
+      });
+    });
     $scope.townHall = -1;
     
     var stateRef = Ref.child('state');
@@ -143,19 +158,6 @@ angular.module('thumbsCheckApp')
       }
     }
 
-    stateObj.$loaded().then(function( state ) {
-      updateTownHall( state );
-
-      console.log('state loaded');
-      stateObj.$watch(function() {
-        console.log('state changed');
-
-        if(state.townHall !== $scope.townHall) {
-          updateTownHall( state );
-        }
-      });
-    });
-
     $scope.addQuestion = function(question) {
       questionsObj.$add({
         question: question,
@@ -184,6 +186,62 @@ angular.module('thumbsCheckApp')
       });
     };
 
+    // ========================== NEW CODE ================
+    $scope.townHall = -1;
+
+    var reflectionsRef = Ref.child('townHall');
+    var reflectionsObj = $firebaseObject(townHallsRef);
+
+    var reflectionRef;
+    var reflectionObj;
+
+    var choicesRef;
+    var choicesObj;
+
+    var updateReflection = function( state ){
+      console.log('reflection changed to ', state.reflection);
+      if(state.reflection === -1){
+        $scope.reflection = -1;
+
+        reflectionRef     = undefined;
+        reflectionObj     = undefined;
+      } else {
+        $scope.reflection=-2;  // -2 === loading new state
+
+        reflectionRef  = reflectionsRef.child(stateObj.reflection);
+        reflectionObj  = $firebaseObject(reflectionRef);
+
+        choicesRef = reflectionRef.child('choices');
+        choicesObj = $firebaseArray(choicesRef);
+
+        reflectionObj.$loaded().then(function( ){
+          choicesObj.$loaded().then(function( ){
+            if($scope.reflection===-2){
+              $scope.reflection     = state.reflection;
+              $scope.reflectionObj  = reflectionObj;
+              $scope.choicesObj = choicesObj;
+            }
+          });
+        });
+      }
+    }
+
+    $scope.vote = function(choiceObj, choice) {
+      responseRef = choicesRef
+        .child(choiceObj.$id)
+        .child('responses')
+        .child(user.uid);
+      responseObj = $firebaseObject(responseRef);
+
+      responseObj.$loaded().then(function( response ){
+        responseObj.vote = choice;
+        responseObj.$save().then(function(ref) {
+          console.log('Successfully saved');
+        }, function(error) {
+          console.log('Error saving:', error);
+        });
+      });
+    };
   });
 
 
