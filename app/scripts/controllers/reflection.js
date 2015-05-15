@@ -10,7 +10,8 @@ angular.module('thumbsCheckApp')
   $scope.state = $firebaseObject(Ref.child('state'));
 
   $scope.curReflection;
-  $scope.curTopic;
+  $scope.curTopics;
+  $scope.curResponses;
 
   $scope.state.$loaded().then(function(){
     $scope.state.$watch(function(){
@@ -18,11 +19,25 @@ angular.module('thumbsCheckApp')
         Ref.child('reflections')
         .child($scope.state.reflection)
       );
-      $scope.curTopic = $firebaseArray(
+      $scope.curTopics = $firebaseArray(
         Ref.child('reflections')
         .child($scope.state.reflection)
         .child('topics')
       );
+      $scope.curTopics.$loaded().then(function(){
+        $scope.curTopics.$watch(function(){
+          $scope.stackedResponses=[ ];
+          for( var i=0; i<$scope.curTopics.length; i++ ){
+            console.log('curtopics ', $scope.curTopics);
+            console.log('length ', $scope.curTopics[i].responses.length);
+            for( var k=0; k<$scope.curTopics[i].responses.length; k++){
+
+            }
+          }
+          console.log('changed', $scope.curResponses);
+        });
+      });
+      console.log($scope.curResponses);
     });
   })
 
@@ -38,8 +53,13 @@ angular.module('thumbsCheckApp')
   };
 
   $scope.addTopicToReflection = function(reflection, topic) {
-    Ref.child('reflections').child(reflection.$id).child('topics')
-    .$asArray().$loaded().then(function(topics){
+    $firebaseArray(
+      Ref.child('reflections')
+      .child(reflection.$id)
+      .child('topics')
+    )
+    .$loaded().then(function(topics){
+      console.log(topics);
       topics.$add({
         topic: topic,
         responses: []

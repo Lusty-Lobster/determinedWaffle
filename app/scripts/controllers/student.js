@@ -101,6 +101,7 @@ angular.module('thumbsCheckApp')
     // ========================== NEW CODE ================
     stateObj.$loaded().then(function( state ) {
       updateTownHall( state );
+      updateReflection( state );
 
       console.log('state loaded');
       stateObj.$watch(function() {
@@ -187,16 +188,16 @@ angular.module('thumbsCheckApp')
     };
 
     // ========================== NEW CODE ================
-    $scope.townHall = -1;
+    $scope.reflection = -1;
 
-    var reflectionsRef = Ref.child('townHall');
-    var reflectionsObj = $firebaseObject(townHallsRef);
+    var reflectionsRef = Ref.child('reflections');
+    var reflectionsObj = $firebaseObject(reflectionsRef);
 
     var reflectionRef;
     var reflectionObj;
 
-    var choicesRef;
-    var choicesObj;
+    var topicsRef;
+    var topicsObj;
 
     var updateReflection = function( state ){
       console.log('reflection changed to ', state.reflection);
@@ -211,30 +212,30 @@ angular.module('thumbsCheckApp')
         reflectionRef  = reflectionsRef.child(stateObj.reflection);
         reflectionObj  = $firebaseObject(reflectionRef);
 
-        choicesRef = reflectionRef.child('choices');
-        choicesObj = $firebaseArray(choicesRef);
+        topicsRef = reflectionRef.child('topics');
+        topicsObj = $firebaseArray(topicsRef);
 
         reflectionObj.$loaded().then(function( ){
-          choicesObj.$loaded().then(function( ){
+          topicsObj.$loaded().then(function( ){
             if($scope.reflection===-2){
               $scope.reflection     = state.reflection;
               $scope.reflectionObj  = reflectionObj;
-              $scope.choicesObj = choicesObj;
+              $scope.topicsObj = topicsObj;
             }
           });
         });
       }
     }
 
-    $scope.vote = function(choiceObj, choice) {
-      responseRef = choicesRef
-        .child(choiceObj.$id)
+    $scope.voteReflection = function(topicObj, topic) {
+      responseRef = topicsRef
+        .child(topicObj.$id)
         .child('responses')
         .child(user.uid);
       responseObj = $firebaseObject(responseRef);
 
       responseObj.$loaded().then(function( response ){
-        responseObj.vote = choice;
+        responseObj.vote = topic;
         responseObj.$save().then(function(ref) {
           console.log('Successfully saved');
         }, function(error) {

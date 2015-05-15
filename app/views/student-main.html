@@ -52,6 +52,26 @@
   
   </div>
 
+  <div ng-if="!(reflection < 0)">
+    <h2>Reflection: {{ reflectionObj.title }}</h2> 
+    <accordion close-others=false>
+      <div ng-repeat="topicObj in topicsObj">
+        <accordion-group>
+          <accordion-heading>
+            {{topicObj.topic}}
+          </accordion-heading>
+          <div>
+            <div class="btn-group btn-group-justified btn-group-sm">
+              <label ng-repeat="thumbs in userThumbsChoices track by $index"class="btn btn-primary" ng-click="voteReflection(topicObj, thumbs.choice)" >
+                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
+              </label>
+            </div>
+          </div>
+        </accordion-group>
+      </div>
+    </accordion>  
+  </div>
+
 
 </div>
 
