@@ -56,13 +56,13 @@
 </div>
 
 <!-- joseph's edition -->
-<div class="footer" ng-cloak="">
+<div class="footerx" id="navbar-brand-centered" ng-cloak="">
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
 
     <div  ng-show="thumbsTrigger">
     
-    <div class="btn-group btn-group-justified btn-group-sm">
-      <label ng-repeat="thumbs in userThumbsChoices track by $index"class="btn btn-primary" ng-click="clicked(thumbs.choice)" >
+    <div class="btn-group btn-group-justified btn-group-lg">
+      <label ng-repeat="thumbs in userThumbsChoices track by $index"class="thumbs-btn btn btn-primary" ng-click="clicked(thumbs.choice)" >
         <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
       </label>
     </div>

@@ -62,6 +62,11 @@ div.singleButton{
   margin-top: .5em;
 }
 
+.thumbs-btn {
+  margin-top: 5px;
+  background-color: green;
+}
+
 .add-quiz{
   display: block;
 }
