@@ -1,0 +1,38 @@
+<div class='jumbotron'>
+
+<form ng-submit="addReflection(title)">
+  <div class="form-group">
+    <label for="title"><h2>Create reflection</h2></label>
+    <input ng-model="title" type="text" class="form-control" id="title" placeholder="New reflection name" required />
+  </div>
+  
+</form>
+
+<!-- <progress><bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%-{{bar.choice}}</span></bar></progress> -->
+
+
+<accordion close-others="oneAtATime">
+
+  <div ng-repeat="reflection in reflections">
+    
+    <accordion-group>
+    <accordion-heading>
+    <button type="button" class="btn btn-primary" ng-model="state.reflection" ng-change="state.$save()" ng-click="pushReflection(reflection)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
+    {{reflection.title}}
+    </accordion-heading>
+    <form ng-submit="addTopicToReflection(reflection, topic)">
+      <div class="form-group">
+        <label for="topic"><h3>Enter Topic</h3></label>
+        <input ng-model="topic" type="text" class="form-control" id="topic" placeholder="Please enter a topic" required />
+      </div>
+    </form>
+    <ul ng-repeat="topic in reflection.topics track by $index">
+      {{$index+1}} : {{topic.topic}}
+    </ul>
+    </accordion-group>
+  </div>
+
+</accordion>
+
+
+</div>
