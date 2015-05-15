@@ -16,6 +16,49 @@ angular.module('thumbsCheckApp')
       }
     ];
 
+    var userExpectationChoices = [
+      {
+        choice: 'Thanks!',
+        icon: 'glyphicon glyphicon-thumbs-up'
+      },
+      {
+        choice: 'Whatever',
+        icon: 'glyphicon glyphicon-resize-horizontal'
+      },
+      {
+        choice: 'Boo!',
+        icon: 'glyphicon glyphicon-thumbs-down'
+      }
+    ];
+    var userUsefulnessChoices = [
+      {
+        choice: 'Productive',
+        icon: 'glyphicon glyphicon-thumbs-up'
+      },
+      {
+        choice: 'Whatever',
+        icon: 'glyphicon glyphicon-resize-horizontal'
+      },
+      {
+        choice: 'Counterproductive',
+        icon: 'glyphicon glyphicon-thumbs-down'
+      }
+    ];
+    var userExperienceChoices = [
+      {
+        choice: 'Fun',
+        icon: 'glyphicon glyphicon-thumbs-up'
+      },
+      {
+        choice: 'Whatever',
+        icon: 'glyphicon glyphicon-resize-horizontal'
+      },
+      {
+        choice: 'Bummer',
+        icon: 'glyphicon glyphicon-thumbs-down'
+      }
+    ];
+
     $scope.userThumbsChoices = userThumbsChoices; 
 
     var triggerRef = Ref.child('state').child('thumbsTrigger');
@@ -227,11 +270,12 @@ angular.module('thumbsCheckApp')
       }
     }
 
-    $scope.voteReflection = function(topicObj, topic) {
+    $scope.voteReflection = function(topicObj, topic, type) {
       responseRef = topicsRef
         .child(topicObj.$id)
         .child('responses')
         .child(user.uid);
+        //.child(type);
       responseObj = $firebaseObject(responseRef);
 
       responseObj.$loaded().then(function( response ){
