@@ -20,9 +20,9 @@
       <button type="button" class="btn btn-primary" ng-model="state.townHall" ng-change="state.$save()" ng-click="pushTownHall(townHall)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
       {{townHall.topic}}
       </accordion-heading>
-      <ul ng-repeat="(id, question) in townHall.questions track by $index | orderBy:'results[id][0].value'"> <!-- TODO: Change to Ul with nested li laster -->
-        {{$index+1}} : {{question.question}} - by - {{question.student_id}}
-        <progress><bar ng-repeat="choice in results[id]" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
+      <ul ng-repeat="question in townHall.questions | orderBy:'voteResult'"> <!-- TODO: Change to Ul with nested li laster -->
+        {{question.question}} - by - {{question.student_id}}
+        <progress><bar ng-repeat="choice in question.results" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
       </ul>
       </accordion-group>
     </div>

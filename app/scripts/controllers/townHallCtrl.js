@@ -82,18 +82,26 @@ angular.module('thumbsCheckApp')
             thumbsCounts.push(0);
             studentList[i] = [];
           }
+
+          var townHallQuestionRef = townHallQuestionsRef.child(key);
+          var townHallQuestionObj = $firebaseObject(townHallQuestionRef);
+
+          townHallQuestionObj.$loaded().then(function(question) {
+
+            console.log('question (single)', question, key);
+            // var responses = question.responses;
+            question.voteResult = tallyResponses(question.responses, thumbsCounts);
+
+            // tallyUpStudentResponsesService.tallyUpResponses(responses, undefined, studentList, thumbsCounts);
+            // $scope.populateProgressBar(thumbsCounts);
+            // $scope.studentList = studentList;
+
+
+            // $scope.results[key] = populateProgressBar(thumbsCounts);
+            question.results = populateProgressBar(thumbsCounts);
+            question.$save();
+          });
           // get responses object
-          console.log('question (single)', question, key);
-          var responses = question.responses;
-          tallyResponses(responses, thumbsCounts);
-
-          // tallyUpStudentResponsesService.tallyUpResponses(responses, undefined, studentList, thumbsCounts);
-          // $scope.populateProgressBar(thumbsCounts);
-          // $scope.studentList = studentList;
-
-
-          $scope.results[key] = populateProgressBar(thumbsCounts);
-          console.log('results', $scope.results);
         });
       });
     }; 
@@ -111,6 +119,8 @@ angular.module('thumbsCheckApp')
           thumbsCounts[2]++;
         }
       }
+
+      return thumbsCounts[0] - thumbsCounts[2];
     };
 
     // one progress bar for each question (question_id)
