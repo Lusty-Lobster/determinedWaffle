@@ -20,14 +20,16 @@
     <button type="button" class="btn btn-primary" ng-model="state.reflection" ng-change="state.$save()" ng-click="pushReflection(reflection)"><span class="glyphicon glyphicon-cloud-upload"></span></button>
     {{reflection.title}}
     </accordion-heading>
+    
     <form ng-submit="addTopicToReflection(reflection, topic)">
       <div class="form-group">
         <label for="topic"><h3>Enter Topic</h3></label>
         <input ng-model="topic" type="text" class="form-control" id="topic" placeholder="Please enter a topic" required />
       </div>
     </form>
-    <ul ng-repeat="topic in reflection.topics track by $index">
-      <b>{{topic.topic}}</b></br>
+    <ul ng-repeat="topic in reflection.topics | orderBy:'-voteResult'"> <!-- TODO: Change to Ul with nested li laster -->
+      {{topic.topic}} 
+      <progress><bar ng-repeat="choice in topic.results" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
     </ul>
     </accordion-group>
   </div>
