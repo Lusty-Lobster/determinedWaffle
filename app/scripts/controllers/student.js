@@ -18,7 +18,7 @@ angular.module('thumbsCheckApp')
 
     $scope.userThumbsChoices = userThumbsChoices; 
 
-    var triggerRef = Ref.child('trigger');
+    var triggerRef = Ref.child('state').child('thumbsTrigger');
     var trigObj = $firebaseObject(triggerRef);
     trigObj.$loaded().then(function(data) {
       // When data referenced by triggerRef changes, the listener $watch is invoked
@@ -28,7 +28,7 @@ angular.module('thumbsCheckApp')
       });
     });
 
-    var quizTriggerRef = Ref.child('quizTrigger');
+    var quizTriggerRef = Ref.child('state').child('quizTrigger');
     var quizTrigObj = $firebaseObject(quizTriggerRef);
     quizTrigObj.$loaded().then(function(data) {
       quizTrigObj.$watch(function() {
@@ -38,12 +38,7 @@ angular.module('thumbsCheckApp')
     });
 
 
-    var newQuizRef = Ref.child('newQuiz').child('quiz');
-    var newQuizObj = $firebaseObject(newQuizRef);
-    // Always update student view with latest quiz
-    newQuizObj.$loaded().then(function(quiz){
-      $scope.quiz = quiz;
-    });
+    
 
 
 
@@ -57,7 +52,7 @@ angular.module('thumbsCheckApp')
       var studentResponseRef = Ref.child('responses').child(user.uid); 
       var obj = $firebaseObject(studentResponseRef);
       obj.$loaded().then(function(data) {
-        obj[user.uid] = thumbsChoice;
+        obj["vote"] = thumbsChoice;
         obj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
@@ -66,14 +61,35 @@ angular.module('thumbsCheckApp')
       });
     };
 
+    var quizResponseRef;
+    var quizResponsesObj;
 
-    var quizResponsesRef = Ref.child('quizResponses').child(user.uid);
-    var quizResponsesObj = $firebaseObject(quizResponsesRef);
+    var newQuizRef;
+    var newQuizObj;
+
+    var stateRef = Ref.child('state');
+    var stateObj = $firebaseObject(stateRef);
+
+    stateObj.$loaded().then(function() {
+      stateObj.$watch(function() {
+        console.log('watch is working');
+        quizResponsesRef = Ref.child('quizzes').child(stateObj.quiz).child('responses').child(user.uid);
+        quizResponsesObj = $firebaseObject(quizResponsesRef);
+
+        newQuizRef = Ref.child('quizzes').child(stateObj.quiz);
+        newQuizObj = $firebaseObject(newQuizRef);
+        // Always update student view with latest quiz
+        newQuizObj.$loaded().then(function(quiz){
+          $scope.quiz = quiz;
+        });
+      });
+    })
+
     $scope.submitQuizChoice = function(choice) {
       // Hide quiz after student made a choice
       $scope.quizTrigger = false;
       quizResponsesObj.$loaded().then(function(data) {
-        quizResponsesObj[user.uid] = choice;
+        quizResponsesObj["selection"] = choice;
         quizResponsesObj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
