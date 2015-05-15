@@ -21,12 +21,12 @@
       {{townHall.topic}}
       </accordion-heading>
 
-      <div ng-init="townHall.questions = townHall.questions || {}; convertToArray(townHall.questions, townHall)"> 
+      <!-- <div ng-init="townHall.questions = townHall.questions || {}; convertToArray(townHall.questions, townHall)">  -->
         <ul ng-repeat="question in townHall.questions | orderBy:'-voteResult'"> <!-- TODO: Change to Ul with nested li laster -->
           {{question.question}} - by - {{question.student_id}}
           <progress><bar ng-repeat="choice in question.results" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
         </ul>
-      </div>
+      <!-- </div> -->
       </accordion-group>
     </div>
 

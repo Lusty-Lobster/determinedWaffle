@@ -8,9 +8,24 @@ angular.module('thumbsCheckApp')
     console.log('ref',townHallsRef);
     var townHallsObj = $firebaseArray(townHallsRef);
     console.log(townHallsObj);
-    $scope.townHalls = townHallsObj;
+    // $scope.townHalls = townHallsObj;
 
-    
+    var convertToArray = function (townHalls) {
+      return townHalls.map(function (townHall) {
+        townHall.questions = Object.keys(townHall.questions).map(function (questionID) {
+          return townHall.questions[questionID];
+        });
+        return townHall;
+      });
+    };
+
+    townHallsObj.$loaded().then(function (townHalls) {
+      $scope.townHalls = convertToArray(townHalls);
+
+      townHallsObj.$watch(function() {
+        $scope.townHalls = convertToArray(townHalls);  
+      });
+    });
 
     $scope.addTownHall = function(topic) {
       console.log('added');
@@ -23,6 +38,7 @@ angular.module('thumbsCheckApp')
       $scope.topic = '';
     };
 
+    
 
     /*Accordion*/
     // quiz trigger
@@ -69,7 +85,7 @@ angular.module('thumbsCheckApp')
       //   $scope.populateProgressBar(quizCounts);
       //   $scope.studentList = studentList;
       // });
-      $scope.results = {};
+      // $scope.results = {};
 
       // once townHallQuestionsObj is loaded, then
       townHallQuestionsObj.$loaded().then(function(questions) {
@@ -98,17 +114,7 @@ angular.module('thumbsCheckApp')
       });
     }; 
 
-    $scope.convertToArray = function (questionsObj, townHall) {
-      window.whatever = questionsObj;
-      // console.log(townHall);
-      // console.log(Object.keys(questionsObj));
-      $scope.questions = Object.keys(questionsObj).map(function(questionID) {
-        // console.log("inside conver to Array ", questionsObj[questionID]);
-        return questionsObj[questionID];
-      });
-
-      console.log($scope.questions);
-    };
+    
 
     var tallyResponses = function(responses, thumbsCounts) {
       for (var student in responses) {
@@ -121,8 +127,9 @@ angular.module('thumbsCheckApp')
           thumbsCounts[2]++;
         }
       }
+      var sum = thumbsCounts[0] + thumbsCounts[1] + thumbsCounts[2];
 
-      return thumbsCounts[0] - thumbsCounts[2];
+      return (thumbsCounts[0] - thumbsCounts[2]) / sum;
     };
 
     // one progress bar for each question (question_id)
