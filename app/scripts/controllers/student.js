@@ -104,7 +104,7 @@ angular.module('thumbsCheckApp')
       var studentResponseRef = Ref.child('responses').child(user.uid); 
       var obj = $firebaseObject(studentResponseRef);
       obj.$loaded().then(function(data) {
-        obj["vote"] = thumbsChoice;
+        obj.vote = thumbsChoice;
         obj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
@@ -141,7 +141,7 @@ angular.module('thumbsCheckApp')
       // Hide quiz after student made a choice
       $scope.quizTrigger = false;
       quizResponsesObj.$loaded().then(function(data) {
-        quizResponsesObj["selection"] = choice;
+        quizResponsesObj.selection = choice;
         quizResponsesObj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
@@ -169,8 +169,8 @@ angular.module('thumbsCheckApp')
     });
     $scope.townHall = -1;
     
-    var stateRef = Ref.child('state');
-    var stateObj = $firebaseObject(stateRef);
+    // var stateRef = Ref.child('state');
+    // var stateObj = $firebaseObject(stateRef);
 
     var townHallsRef = Ref.child('townHall');
     var townHallsObj = $firebaseObject(townHallsRef);

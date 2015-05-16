@@ -130,9 +130,9 @@ angular.module('thumbsCheckApp')
           catagories.forEach(function(category){
             var thumbsCounts = [];
             var studentList = {};
-            for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
               thumbsCounts.push(0);
-              studentList[i] = [];
+              studentList[j] = [];
             }
 
             var voteResult = $firebaseObject(topicRef.child(category).child('voteResult'));
