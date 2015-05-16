@@ -61,28 +61,30 @@
             {{topicObj.topic}}
           </accordion-heading>
           <div>
+            <!--
             <div class="btn-group btn-group-justified btn-group-sm">
               <label ng-repeat="thumbs in userThumbsChoices track by $index"class="btn btn-primary" ng-click="voteReflection(topicObj, thumbs.choice)" >
                 <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
               </label>
             </div>
-            <!-- 
+            -->
+            
             <div class="btn-group btn-group-justified btn-group-sm">
               <label ng-repeat="thumbs in userExpectationChoices track by $index"class="btn btn-primary" ng-click="voteReflection(topicObj, thumbs.choice,'Expectation')" >
-                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
+                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.label}}
               </label>
             </div>
             <div class="btn-group btn-group-justified btn-group-sm">
               <label ng-repeat="thumbs in userUsefulnessChoices track by $index"class="btn btn-primary" ng-click="voteReflection(topicObj, thumbs.choice,'Usefulness')" >
-                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
+                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.label}}
               </label>
             </div>
             <div class="btn-group btn-group-justified btn-group-sm">
               <label ng-repeat="thumbs in userExperienceChoices track by $index"class="btn btn-primary" ng-click="voteReflection(topicObj, thumbs.choice,'Experience')" >
-                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
+                <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.label}}
               </label>
             </div>
-            -->
+            
           </div>
         </accordion-group>
       </div>

@@ -16,45 +16,54 @@ angular.module('thumbsCheckApp')
       }
     ];
 
-    var userExpectationChoices = [
+    $scope.userExpectationChoices = [
       {
-        choice: 'Thanks!',
+        choice: 'up',
+        label: 'Thanks!',
         icon: 'glyphicon glyphicon-thumbs-up'
       },
       {
-        choice: 'Whatever',
+        choice: 'middle',
+        label: 'Whatever',
         icon: 'glyphicon glyphicon-resize-horizontal'
       },
       {
-        choice: 'Boo!',
+        choice: 'down',
+        label: 'Boo!',
         icon: 'glyphicon glyphicon-thumbs-down'
       }
     ];
-    var userUsefulnessChoices = [
+    $scope.userUsefulnessChoices = [
       {
-        choice: 'Productive',
+        choice: 'up',
+        label: 'Productive',
         icon: 'glyphicon glyphicon-thumbs-up'
       },
       {
-        choice: 'Whatever',
+        choice: 'middle',
+        label: 'Whatever',
         icon: 'glyphicon glyphicon-resize-horizontal'
       },
       {
-        choice: 'Counterproductive',
+        choice: 'down',
+        label: 'Counterproductive',
         icon: 'glyphicon glyphicon-thumbs-down'
       }
     ];
-    var userExperienceChoices = [
+    $scope.userExperienceChoices = [
       {
-        choice: 'Fun',
+        choice: 'up',
+        label: 'Fun',
         icon: 'glyphicon glyphicon-thumbs-up'
       },
       {
-        choice: 'Whatever',
+        choice: 'middle',
+        label: 'Whatever',
         icon: 'glyphicon glyphicon-resize-horizontal'
       },
       {
-        choice: 'Bummer',
+        choice: 'down',
+        label: 'Bummer',
         icon: 'glyphicon glyphicon-thumbs-down'
       }
     ];
@@ -274,8 +283,8 @@ angular.module('thumbsCheckApp')
       responseRef = topicsRef
         .child(topicObj.$id)
         .child('responses')
-        .child(user.uid);
-        //.child(type);
+        .child(user.uid)
+        .child(type);
       responseObj = $firebaseObject(responseRef);
 
       responseObj.$loaded().then(function( response ){

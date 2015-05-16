@@ -102,6 +102,12 @@ angular.module('thumbsCheckApp')
     });
   }
 
+  var catagories = [
+    'Expectation',
+    'Usefulness',
+    'Experience'
+  ];
+
   $scope.total = function() {
     // Initialize quizCounts and studentList
     // quizResponsesObj.$loaded().then(function(responses) {
@@ -115,22 +121,59 @@ angular.module('thumbsCheckApp')
     topicsObj.$loaded().then(function(topics) {
       // loop - for each question
       topics.forEach(function(topic, key) {
-        var thumbsCounts = [];
-        var studentList = {};
-        for (var i = 0; i < 3; i++) {
-          thumbsCounts.push(0);
-          studentList[i] = [];
-        }
 
         var topicRef = topicsRef.child(key);
         var topicObj = $firebaseObject(topicRef);
 
         topicObj.$loaded().then(function(topic) {
 
-          topic.voteResult = tallyResponses(topic.responses, thumbsCounts);
+          catagories.forEach(function(category){
+            var thumbsCounts = [];
+            var studentList = {};
+            for (var i = 0; i < 3; i++) {
+              thumbsCounts.push(0);
+              studentList[i] = [];
+            }
 
-          topic.results = populateProgressBar(thumbsCounts);
-          topic.$save();
+            var voteResult = $firebaseObject(topicRef.child(category).child('voteResult'));
+            voteResult.$value = tallyResponses(topic.responses, thumbsCounts, category);
+            voteResult.$save();
+
+
+            thumbsCounts = populateProgressBar(thumbsCounts);
+            console.log(thumbsCounts);
+            for(var i=0; i<thumbsCounts.length; i++){
+              var result = $firebaseArray(topicRef.child(category).child('results').child(i));
+              result.$loaded().then(function(){
+                if(thumbsCounts[i]){
+                  result.choice=thumbsCounts[i].choice;
+                  result.type=thumbsCounts[i].type;
+                  result.value=thumbsCounts[i].value
+                  result.$save();
+                }
+              });
+            }
+
+            // var results = $firebaseArray(topicRef.child(category).child('results'));
+            // results.$loaded().then(function(){
+            //   thumbsCounts = populateProgressBar(thumbsCounts);
+            //   for(var i=0; i<thumbsCounts.length; i++){
+            //     results[i] = thumbsCounts[i];
+            //     // console.log(i,thumbsCounts[i]);
+            //   }
+            //   // console.log(category, 'after', results);
+            //   results.$save();
+            // })
+
+            /*
+            var categoryObj = $firebaseObject(topicRef.child(category));
+            console.log(categoryObj);
+            categoryObj.voteResult = tallyResponses(topic.responses, thumbsCounts, category);
+            categoryObj.results = populateProgressBar(thumbsCounts);
+            categoryObj.$save();
+            topic.$save();
+            */
+          });
         });
       });
     });
@@ -138,19 +181,20 @@ angular.module('thumbsCheckApp')
 
   
 
-  var tallyResponses = function(responses, thumbsCounts) {
+  var tallyResponses = function(responses, thumbsCounts, category) {
     for (var student in responses) {
-      var vote = responses[student].vote;
-      if (vote === 'up') {
-        thumbsCounts[0]++;
-      } else if (vote === 'middle') {
-        thumbsCounts[1]++;
-      } else {
-        thumbsCounts[2]++;
+      if(responses[student][category]){
+        var vote = responses[student][category].vote;
+        if (vote === 'up') {
+          thumbsCounts[0]++;
+        } else if (vote === 'middle') {
+          thumbsCounts[1]++;
+        } else {
+          thumbsCounts[2]++;
+        }
       }
     }
-    var sum = thumbsCounts[0] + thumbsCounts[1] + thumbsCounts[2];
-
+    var sum = (thumbsCounts[0] + thumbsCounts[1] + thumbsCounts[2]) || 1;
     return (thumbsCounts[0] - thumbsCounts[2]) / sum;
   };
 

@@ -27,9 +27,18 @@
         <input ng-model="topic" type="text" class="form-control" id="topic" placeholder="Please enter a topic" required />
       </div>
     </form>
-    <ul ng-repeat="topic in reflection.topics | orderBy:'-voteResult'"> <!-- TODO: Change to Ul with nested li laster -->
+<!-- 
+    <ul ng-repeat="topic in reflection.topics | orderBy:'-voteResult'"> 
       {{topic.topic}} 
       <progress><bar ng-repeat="choice in topic.results" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
+    </ul>
+-->
+
+    <ul ng-repeat="topic in reflection.topics | orderBy:'-voteResult'"> 
+      <h3>{{topic.topic}}</h3>
+      Expectations: <progress><bar ng-repeat="choice in topic.Expectation.results" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
+      Experience: <progress><bar ng-repeat="choice in topic.Experience.results" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
+      Usefulness: <progress><bar ng-repeat="choice in topic.Usefulness.results" value="choice.value" type="{{choice.type}}"><span ng-hide="bar.value < 5">{{choice.value}}%-{{choice.choice}}</span></bar></progress>
     </ul>
     </accordion-group>
   </div>
