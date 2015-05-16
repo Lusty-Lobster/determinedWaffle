@@ -19,7 +19,7 @@ angular.module('thumbsCheckApp')
 
   var convertToArray = function (reflections) {
     return reflections.map(function (reflection) {
-      console.log(reflection.topics);
+      // console.log(reflection.topics);
       reflection.topics = reflection.topics || {};
       reflection.topics = Object.keys(reflection.topics).map(function (topicId) {
         return reflection.topics[topicId];
@@ -143,15 +143,25 @@ angular.module('thumbsCheckApp')
             thumbsCounts = populateProgressBar(thumbsCounts);
             console.log(thumbsCounts);
             for(var i=0; i<thumbsCounts.length; i++){
-              var result = $firebaseArray(topicRef.child(category).child('results').child(i));
-              result.$loaded().then(function(){
+              var result = $firebaseObject(
+                Ref.child('reflections')
+                .child($scope.state.reflection)
+                .child('topics')
+                .child(key)
+                .child(category)
+                .child('results')
+                .child(i)
+              );
+
+              // result.$loaded().then(function(res){
+                console.log(result);
                 if(thumbsCounts[i]){
                   result.choice=thumbsCounts[i].choice;
                   result.type=thumbsCounts[i].type;
                   result.value=thumbsCounts[i].value
                   result.$save();
                 }
-              });
+              // });
             }
 
             // var results = $firebaseArray(topicRef.child(category).child('results'));
