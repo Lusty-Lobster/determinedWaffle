@@ -2,14 +2,14 @@
 <!-- For testing purpose, should be deleted on production -->
 <!-- <div class='col-lg-6 col-lg-offset-3'> -->
 <div class='jumbotron'>
-  <h1>Thumbs Check <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></h1>
+  <h1>Moderate.it <!-- <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> --></h1>
 
 
 
 <!-- Vertical button group, visible only for sm and xs screens -->
 
 
-  <div ng-if="quizTrigger" ng-init="quizTrigger = false">
+  <!-- <div ng-if="quizTrigger" ng-init="quizTrigger = false">
     <div>
       <h2>Quiz:</h2> <h3>{{ quiz.question }}</h3> <br/>
       <div class="btn-group btn-group-justified btn-group-lg hidden-sm hidden-xs" >
@@ -20,7 +20,7 @@
         <label class="btn btn-primary" ng-model="quizChoice" btn-radio="choice" ng-click="submitQuizChoice($index)" ng-repeat="choice in quiz.choices track by $index">{{choice}}</label>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div ng-if="!(townHall < 0)">
     <h2>Town Hall: {{ townHallObj.topic }}</h2> 
@@ -95,13 +95,13 @@
 </div>
 
 <!-- joseph's edition -->
-<div class="footer" ng-cloak="">
+<div class="footerx" id="navbar-brand-centered" ng-cloak="">
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
 
     <div  ng-show="thumbsTrigger">
     
-    <div class="btn-group btn-group-justified btn-group-sm">
-      <label ng-repeat="thumbs in userThumbsChoices track by $index"class="btn btn-primary" ng-click="clicked(thumbs.choice)" >
+    <div class="btn-group btn-group-justified btn-group-lg">
+      <label ng-repeat="thumbs in userThumbsChoices track by $index" class="thumbs-btn btn btn-primary" ng-click="clicked(thumbs.choice)" >
         <span class={{thumbs.icon}} aria-hidden="true"></span> {{thumbs.choice}}
       </label>
     </div>
