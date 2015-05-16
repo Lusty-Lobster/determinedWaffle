@@ -44,6 +44,10 @@ angular.module('thumbsCheckApp')
         templateUrl: 'views/instructor-townhall.html',
         controller: 'TownHallCtrl'    
       })
+      .whenAuthenticated('/instructor-reflection', {
+        templateUrl: 'views/instructor-reflection.html',
+        controller: 'ReflectionCtrl'    
+      })
       .otherwise({
         redirectTo: '/'
       });

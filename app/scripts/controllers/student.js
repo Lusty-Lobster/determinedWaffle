@@ -16,9 +16,52 @@ angular.module('thumbsCheckApp')
       }
     ];
 
+    var userExpectationChoices = [
+      {
+        choice: 'Thanks!',
+        icon: 'glyphicon glyphicon-thumbs-up'
+      },
+      {
+        choice: 'Whatever',
+        icon: 'glyphicon glyphicon-resize-horizontal'
+      },
+      {
+        choice: 'Boo!',
+        icon: 'glyphicon glyphicon-thumbs-down'
+      }
+    ];
+    var userUsefulnessChoices = [
+      {
+        choice: 'Productive',
+        icon: 'glyphicon glyphicon-thumbs-up'
+      },
+      {
+        choice: 'Whatever',
+        icon: 'glyphicon glyphicon-resize-horizontal'
+      },
+      {
+        choice: 'Counterproductive',
+        icon: 'glyphicon glyphicon-thumbs-down'
+      }
+    ];
+    var userExperienceChoices = [
+      {
+        choice: 'Fun',
+        icon: 'glyphicon glyphicon-thumbs-up'
+      },
+      {
+        choice: 'Whatever',
+        icon: 'glyphicon glyphicon-resize-horizontal'
+      },
+      {
+        choice: 'Bummer',
+        icon: 'glyphicon glyphicon-thumbs-down'
+      }
+    ];
+
     $scope.userThumbsChoices = userThumbsChoices; 
 
-    var triggerRef = Ref.child('trigger');
+    var triggerRef = Ref.child('state').child('thumbsTrigger');
     var trigObj = $firebaseObject(triggerRef);
     trigObj.$loaded().then(function(data) {
       // When data referenced by triggerRef changes, the listener $watch is invoked
@@ -28,7 +71,7 @@ angular.module('thumbsCheckApp')
       });
     });
 
-    var quizTriggerRef = Ref.child('quizTrigger');
+    var quizTriggerRef = Ref.child('state').child('quizTrigger');
     var quizTrigObj = $firebaseObject(quizTriggerRef);
     quizTrigObj.$loaded().then(function(data) {
       quizTrigObj.$watch(function() {
@@ -38,12 +81,7 @@ angular.module('thumbsCheckApp')
     });
 
 
-    var newQuizRef = Ref.child('newQuiz').child('quiz');
-    var newQuizObj = $firebaseObject(newQuizRef);
-    // Always update student view with latest quiz
-    newQuizObj.$loaded().then(function(quiz){
-      $scope.quiz = quiz;
-    });
+    
 
 
 
@@ -57,7 +95,7 @@ angular.module('thumbsCheckApp')
       var studentResponseRef = Ref.child('responses').child(user.uid); 
       var obj = $firebaseObject(studentResponseRef);
       obj.$loaded().then(function(data) {
-        obj[user.uid] = thumbsChoice;
+        obj["vote"] = thumbsChoice;
         obj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
@@ -66,14 +104,35 @@ angular.module('thumbsCheckApp')
       });
     };
 
+    var quizResponseRef;
+    var quizResponsesObj;
 
-    var quizResponsesRef = Ref.child('quizResponses').child(user.uid);
-    var quizResponsesObj = $firebaseObject(quizResponsesRef);
+    var newQuizRef;
+    var newQuizObj;
+
+    var stateRef = Ref.child('state');
+    var stateObj = $firebaseObject(stateRef);
+
+    stateObj.$loaded().then(function() {
+      stateObj.$watch(function() {
+        console.log('watch is working');
+        quizResponsesRef = Ref.child('quizzes').child(stateObj.quiz).child('responses').child(user.uid);
+        quizResponsesObj = $firebaseObject(quizResponsesRef);
+
+        newQuizRef = Ref.child('quizzes').child(stateObj.quiz);
+        newQuizObj = $firebaseObject(newQuizRef);
+        // Always update student view with latest quiz
+        newQuizObj.$loaded().then(function(quiz){
+          $scope.quiz = quiz;
+        });
+      });
+    })
+
     $scope.submitQuizChoice = function(choice) {
       // Hide quiz after student made a choice
       $scope.quizTrigger = false;
       quizResponsesObj.$loaded().then(function(data) {
-        quizResponsesObj[user.uid] = choice;
+        quizResponsesObj["selection"] = choice;
         quizResponsesObj.$save().then(function(ref) {
           console.log('Success');
         }, function(error) {
@@ -83,6 +142,22 @@ angular.module('thumbsCheckApp')
     };
 
     // ========================== NEW CODE ================
+    stateObj.$loaded().then(function( state ) {
+      updateTownHall( state );
+      updateReflection( state );
+
+      console.log('state loaded');
+      stateObj.$watch(function() {
+        console.log('state changed');
+
+        if(state.townHall !== $scope.townHall) {
+          updateTownHall( state );
+        }
+        if(state.reflection !== $scope.reflection) {
+          updateReflection( state );
+        }
+      });
+    });
     $scope.townHall = -1;
     
     var stateRef = Ref.child('state');
@@ -127,19 +202,6 @@ angular.module('thumbsCheckApp')
       }
     }
 
-    stateObj.$loaded().then(function( state ) {
-      updateTownHall( state );
-
-      console.log('state loaded');
-      stateObj.$watch(function() {
-        console.log('state changed');
-
-        if(state.townHall !== $scope.townHall) {
-          updateTownHall( state );
-        }
-      });
-    });
-
     $scope.addQuestion = function(question) {
       questionsObj.$add({
         question: question,
@@ -168,6 +230,63 @@ angular.module('thumbsCheckApp')
       });
     };
 
+    // ========================== NEW CODE ================
+    $scope.reflection = -1;
+
+    var reflectionsRef = Ref.child('reflections');
+    var reflectionsObj = $firebaseObject(reflectionsRef);
+
+    var reflectionRef;
+    var reflectionObj;
+
+    var topicsRef;
+    var topicsObj;
+
+    var updateReflection = function( state ){
+      console.log('reflection changed to ', state.reflection);
+      if(state.reflection === -1){
+        $scope.reflection = -1;
+
+        reflectionRef     = undefined;
+        reflectionObj     = undefined;
+      } else {
+        $scope.reflection=-2;  // -2 === loading new state
+
+        reflectionRef  = reflectionsRef.child(stateObj.reflection);
+        reflectionObj  = $firebaseObject(reflectionRef);
+
+        topicsRef = reflectionRef.child('topics');
+        topicsObj = $firebaseArray(topicsRef);
+
+        reflectionObj.$loaded().then(function( ){
+          topicsObj.$loaded().then(function( ){
+            if($scope.reflection===-2){
+              $scope.reflection     = state.reflection;
+              $scope.reflectionObj  = reflectionObj;
+              $scope.topicsObj = topicsObj;
+            }
+          });
+        });
+      }
+    }
+
+    $scope.voteReflection = function(topicObj, topic, type) {
+      responseRef = topicsRef
+        .child(topicObj.$id)
+        .child('responses')
+        .child(user.uid);
+        //.child(type);
+      responseObj = $firebaseObject(responseRef);
+
+      responseObj.$loaded().then(function( response ){
+        responseObj.vote = topic;
+        responseObj.$save().then(function(ref) {
+          console.log('Successfully saved');
+        }, function(error) {
+          console.log('Error saving:', error);
+        });
+      });
+    };
   });
 
 
